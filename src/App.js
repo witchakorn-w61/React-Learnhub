@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
+import "./App.css";
+import NavBar from "./components/NavBar";
+import { useAuth } from "./providers/AuthProvider";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import ContentDetail from "./pages/ContentDetail";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import GuardedRoute from "./guards/GuardedRoute";
+// import { useContext } from "react";
+// import {AuthContext} from...
+// usage:
+//   const context = useContext(AuthContext)
 function App() {
+  const { isLoggedIn, login, logout, username } = useAuth();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="text-slate-600">
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/content/:id" element={<ContentDetail />} />
+        <Route
+          element={
+            <GuardedRoute isRouteAccessible={!isLoggedIn} redirectRoute="/" />
+          }
         >
-          Learn React
-        </a>
-      </header>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
