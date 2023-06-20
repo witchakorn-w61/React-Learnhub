@@ -99,7 +99,7 @@ const ContentDetail = () => {
   } = content;
 
   return (
-    <div className="flex flex-col items-center py-8 gap-2">
+    <div className="flex flex-col items-center py-8 gap-2 mt-24">
       {username === postedBy.username && (
         <button
           onClick={handleDelete}
