@@ -27,10 +27,14 @@ const RegisterForm = () => {
           password: registerPasswordInput,
         }),
       });
+      const data = await res.json();
+      if (data.statusCode === 409) {
+        throw new Error(data.message);
+      }
       alert("ID Registered");
       navigate("/login");
     } catch (err) {
-      console.log(err);
+      throw new Error(err.message);
     }
   };
 
@@ -44,7 +48,7 @@ const RegisterForm = () => {
         <input
           required
           type="text"
-          className="bg-slate-200 mb-8"
+          className="bg-slate-200"
           id="name"
           name="name"
           onChange={(e) => {
@@ -52,6 +56,7 @@ const RegisterForm = () => {
             setNameInput(e.target.value);
           }}
         />
+        <br />
         <label htmlFor="registerUsername">Username</label>
         <input
           required
